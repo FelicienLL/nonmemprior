@@ -4,10 +4,30 @@
 \alias{nmprior}
 \title{Render character vector to paste into NM control stream}
 \usage{
-nmprior(x)
+nmprior(
+  model_name,
+  THETA_VALUE,
+  THETA_PRECISION,
+  OMEGA_VALUE,
+  OMEGA_PRECISION,
+  OMEGA2_or_CV = "CV",
+  PRECISION = "RSE"
+)
 }
 \arguments{
-\item{x}{dummy input}
+\item{model_name}{Name and reference of the model}
+
+\item{THETA_VALUE}{a named list of the values of theta}
+
+\item{THETA_PRECISION}{a list of precision on theta}
+
+\item{OMEGA_VALUE}{a named list of the values of omega}
+
+\item{OMEGA_PRECISION}{a list of precision on theta}
+
+\item{OMEGA2_or_CV}{are the omega value sd, variance or CV}
+
+\item{PRECISION}{is precision reported as SE or RSE}
 }
 \value{
 dummy result

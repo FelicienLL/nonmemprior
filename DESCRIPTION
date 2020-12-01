@@ -7,9 +7,18 @@ Authors@R:
            role = c("aut", "cre"),
            email = "lelouedec.felicien@iust-oncopole.fr",
            comment = c(ORCID = "0000-0003-3699-2729"))
-Description: Returns the text to paste into a NONMEM code to use the NWPRI $PRIOR routine, from a NMXML file or user-entered information about a model from the literature.
+Description: Returns the text to paste into a NONMEM code to use the NWPRI $PRIOR routine, from user-entered information about a model from the literature.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Suggests: 
+    testthat
+Imports: 
+    dplyr,
+    magrittr,
+    mrgsolve,
+    purrr,
+    rlang,
+    tidyr
