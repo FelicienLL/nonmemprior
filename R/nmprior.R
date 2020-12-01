@@ -17,17 +17,14 @@ nmprior <- function(model_name,
                     OMEGA_PRECISION,
                     OMEGA2_or_CV = "CV",
                     PRECISION = "RSE"){
-  #browser()
+
+  ### OMEGA CODE IS STILL "ROUGH" ; NEEDS REFACTORING SUCH AS THETAS
+
   omega_value <- switch (OMEGA2_or_CV,
                          "CV" = (unlist(OMEGA_VALUE)) ^ 2,
                          "OMEGA2" = OMEGA_VALUE
   )
 
-  theta_rse <- switch (PRECISION,
-                       "SE" = unlist(THETA_PRECISION) / unlist(THETA_VALUE),
-                       "RSE" = unlist(THETA_PRECISION),
-                       "CI95" = (unlist(THETA_PRECISION) / 1.96) / unlist(THETA_VALUE)
-  )
 
   omega_rse <- switch (PRECISION,
                        "SE" = unlist(OMEGA_PRECISION) / unlist(OMEGA_VALUE),
@@ -35,38 +32,8 @@ nmprior <- function(model_name,
                        "CI95" = (unlist(OMEGA_PRECISION) / 1.96) / unlist(OMEGA_VALUE)
   )
 
-
-  # THETAP
-
-  thetap <- unlist(THETA_VALUE)
-
-  # THETAPV
-#browser()
-  thetapv0 <- map2(thetap,
-                  theta_rse,
-                  function(.x, .y){
-                    (.x * .y)^2
-                  }) %>%
-    unlist() %>%
-    as.double() %>%
-    dmat() %>%
-    as_tibble() %>%
-    mutate(across(everything(), as.character))
-
-  thetapv <- replace(thetapv0, upper.tri(thetapv0),"") %>%
-    unite(everything(), col = "THETAPV", sep = " ") %>%
-    mutate(THETAPV = ifelse(row_number() == 1,
-                            paste0(.data$THETAPV, " FIXED"),
-                            .data$THETAPV)
-    ) %>%
-    pull
-
-
-  #OMEGAP
-
   omegap <- omega_value
 
-  #OMEGAPD
 
   omegapd <- (1/unlist(omega_rse)) %>% #(omega/ (RSE x omega))= 1/omega
     raise_to_power(2) %>%
@@ -74,34 +41,19 @@ nmprior <- function(model_name,
     add(1) %>%
     round(0)
 
-  #   browser()
-  #PRINT EVERYTHING
+  op_text <- paste0("\n$OMEGAP \n", omegap %>% paste0(" FIXED ;  ",names(omegap),collapse = "\n"), "\n")
+  opd_text <- paste0( "\n$OMEGAPD \n", omegapd %>% paste0(" FIXED;  ",names(omegap), collapse = "\n"), "\n")
 
-  cat(
-    "\n\n",
-    ";===== PRIOR BLOCKS ======\n",
-    ";===== from ",model_name," ======\n",
 
-    "$THETAP \n",
-    thetap %>% paste0(" FIXED ;  ",names(thetap),collapse = "\n"),
-    "\n\n",
-
-    "$THETAPV BLOCK(", length(thetapv),") \n",
-    thetapv %>% paste0( paste0(" ; ", names(thetap)), collapse = "\n"),
-    "\n\n",
-
-    "$OMEGAP \n",
-    omegap %>% paste0(" FIXED ;  ",names(omegap),collapse = "\n"),
-    "\n\n",
-
-    "$OMEGAPD \n",
-    omegapd %>% paste0(" FIXED;  ",names(omegap), collapse = "\n"),
-    "\n\n",
-
-    ";===== end of prior blocks =====\n\n\n",
-
-    sep = ""
-  )
+  #Print
+  print_blocks(i = intro_prior(name = model_name),
+               tp = text_tp(get_t_val(THETA_VALUE)),
+               tpv = text_tpv(get_t_var(THETA_PRECISION, type = PRECISION, theta_val = THETA_VALUE)),
+               op = op_text,
+               opd = opd_text,
+               e = end_prior()
+               ) %>%
+    cat(sep = "")
 
   message("/!\\ Reminder : \n
   $PRIOR NWPRI ;(between $SUB and $PK)
