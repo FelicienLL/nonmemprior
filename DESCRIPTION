@@ -18,7 +18,4 @@ Suggests:
 Imports: 
     dplyr,
     magrittr,
-    mrgsolve,
-    purrr,
-    rlang,
     tidyr
