@@ -10,14 +10,16 @@ get_t_var <- function(theta_prec, type, theta_val = NULL){
   if(!type %in% c("RSE", "SE", "CI95", "CI90")) stop("Type of precision on theta value is not supported")
 
   if(type == "RSE"){
+    if(!all((theta_prec %>% map(length) %>% as.double) == 1)) stop("Theta_precision; 1 value expected per parameter with SE or RSE.")
     if(is.null(theta_val)) stop("Please provide theta values to compute variance")
     v <- (unlist(theta_prec) * get_t_val(theta_val))^2
   }
   if(type == "SE"){
+    if(!all((theta_prec %>% map(length) %>% as.double) == 1)) stop("Theta_precision; 1 value expected per parameter with SE or RSE.")
     v <- (unlist(theta_prec))^2
   }
   if(type %in% c("CI95", "CI90")){
-    if(!all((theta_prec %>% map(length) %>% as.double) == 2)) stop("Please provide the 2 bounds of the confidence interval for every param.")
+    if(!all((theta_prec %>% map(length) %>% as.double) == 2)) stop("2 values expected per parameter with CI90 or CI95")
     gap <- (as.double(map(theta_prec, 2)) - as.double(map(theta_prec, 1)))/2
 
     z <- switch(type,
@@ -48,18 +50,21 @@ get_o_val <- function(omega_val, omega_type){
 
 
 get_o_var <- function(omega_prec, type, omega_val = NULL, omega_type = NULL){
-  if(omega_type %in% c("VAR", "OMEGA2") & type == "CV"){
+  if(omega_type %in% c("VAR", "OMEGA2") & type == "RSE"){
+    if(!all((omega_prec %>% map(length) %>% as.double) == 1)) stop("omega_precision; 1 value expected per parameter with SE or RSE.")
     se <- unlist(omega_prec) * get_o_val(omega_val, omega_type)
   }
   if(omega_type %in% c("VAR", "OMEGA2") & type == "SE"){
+    if(!all((omega_prec %>% map(length) %>% as.double) == 1)) stop("omega_precision; 1 value expected per parameter with SE or RSE.")
     se <- unlist(omega_prec)
   }
-  if(omega_type %in% c("CV", "SE", "logN_CV") & type == "CV"){
+  if(omega_type %in% c("CV", "SE", "logN_CV") & type == "RSE"){
+    if(!all((omega_prec %>% map(length) %>% as.double) == 1)) stop("omega_precision; 1 value expected per parameter with SE or RSE.")
     se <- 2*unlist(omega_prec) * get_o_val(omega_val, omega_type)
   }
   if(omega_type %in% c("VAR", "OMEGA2") & type %in% c("CI95", 'CI90')){
 
-    if(!all((omega_prec %>% map(length) %>% as.double) == 2)) stop("Please provide the 2 bounds of the confidence interval for every param.")
+    if(!all((omega_prec %>% map(length) %>% as.double) == 2)) stop("omega_precision; 2 values expected per parameter with CI90 or CI95")
     gap <- (as.double(map(omega_prec, 2)) - as.double(map(omega_prec, 1)))/2
 
     z <- switch(type,
