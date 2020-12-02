@@ -66,18 +66,16 @@ get_o_var <- function(omega_prec, type, omega_val = NULL, omega_type = NULL){
                 "CI95" = 1.96,
                 "CI90" = 1.645
     )
-    v <- (unlist(gap) / z)^2
+    se <- unlist(gap) / z
   }
+  if(!exists('se')) stop("Please mind the way you entered precison on OMEGA.")
+
+  v <- se^2
   return(v)
-
 }
 
 
 
 
 
-if(!exists('se')) stop("Please mind the way you entered precison on OMEGA.")
 
-v <- se^2
-return(v)
-}
