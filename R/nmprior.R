@@ -29,7 +29,8 @@ nmprior <- function(model_name,
   omega_rse <- switch (PRECISION,
                        "SE" = unlist(OMEGA_PRECISION) / unlist(OMEGA_VALUE),
                        "RSE" = unlist(OMEGA_PRECISION),
-                       "CI95" = (unlist(OMEGA_PRECISION) / 1.96) / unlist(OMEGA_VALUE)
+                       "CI95" = (unlist(OMEGA_PRECISION) / 1.96) / unlist(OMEGA_VALUE),
+                       "CI90" = (unlist(OMEGA_PRECISION) / 1.645) / unlist(OMEGA_VALUE)
   )
 
   omegap <- omega_value
