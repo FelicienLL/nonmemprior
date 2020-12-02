@@ -18,4 +18,5 @@ Suggests:
 Imports: 
     dplyr,
     magrittr,
-    tidyr
+    tidyr,
+    purrr
