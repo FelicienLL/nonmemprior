@@ -15,7 +15,7 @@ text_tpv <- function(t_var){
     unite(everything(), col = "tpv", sep = " ") %>%
     pull() %>%
     paste0(collapse = "\n")
-  paste0("\n$THETAPV; (Variance-covariance of THETA)\n", txttvar, "\n")
+  paste0("\n$THETAPV BLOCK(",length(t_var) ,"); (Variance-covariance of THETA)\n", txttvar, "\n")
 }
 
 text_op <- function(o_val){
