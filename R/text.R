@@ -5,10 +5,9 @@ text_tp <- function(t_val){
 
 #t_var output of get_t_var
 text_tpv <- function(t_var){
-  tvar <- get_t_var(c(KA = .1, CL = .2, V = .3), "SE")
   ntvar <- ""
-  if(!is.null(names(tvar))) ntvar <- names(tvar)
-  mtx <- diag(tvar)
+  if(!is.null(names(t_var))) ntvar <- names(t_var)
+  mtx <- diag(t_var)
   df <- mutate(as.data.frame(mtx), across(everything(), as.character))
   txttvar <- replace(df, upper.tri(df),"") %>%
     mutate(fixed = ifelse(row_number()== 1, "FIXED", "")) %>%

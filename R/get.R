@@ -62,6 +62,10 @@ get_o_var <- function(omega_prec, type, omega_val = NULL, omega_type = NULL){
     if(!all((omega_prec %>% map(length) %>% as.double) == 1)) stop("omega_precision; 1 value expected per parameter with SE or RSE.")
     se <- 2*unlist(omega_prec) * get_o_val(omega_val, omega_type)
   }
+  if(omega_type %in% c("CV", "SE", "logN_CV") & type == "SE"){
+    if(!all((omega_prec %>% map(length) %>% as.double) == 1)) stop("omega_precision; 1 value expected per parameter with SE or RSE.")
+    se <- unlist(omega_prec)
+  }
   if(omega_type %in% c("VAR", "OMEGA2") & type %in% c("CI95", 'CI90')){
 
     if(!all((omega_prec %>% map(length) %>% as.double) == 2)) stop("omega_precision; 2 values expected per parameter with CI90 or CI95")

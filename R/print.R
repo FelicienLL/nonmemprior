@@ -4,7 +4,7 @@ intro_prior <- function(name){
   ";===== from ",name," ======\n")
 }
 
-end_prior <- function()';===== End of PRIOR BLOCKS ====='
+end_prior <- function()';===== End of PRIOR BLOCKS =====\n'
 
 print_blocks <- function(i, tp, tpv, op, opd, e){
   paste0(i, tp, tpv, op, opd, e, collapse = "")

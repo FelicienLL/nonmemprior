@@ -9,9 +9,10 @@ nmprior(
   THETA_VALUE,
   THETA_PRECISION,
   OMEGA_VALUE,
+  OMEGA_TYPE = c("OMEGA2", "VAR", "CV", "SE", "logN_CV"),
   OMEGA_PRECISION,
-  OMEGA2_or_CV = "CV",
-  PRECISION = "RSE"
+  PRECISION = c("RSE", "SE", "CI90", "CI95"),
+  .message = TRUE
 )
 }
 \arguments{
@@ -23,11 +24,13 @@ nmprior(
 
 \item{OMEGA_VALUE}{a named list of the values of omega}
 
+\item{OMEGA_TYPE}{how was inter-individual variabilty reported ?}
+
 \item{OMEGA_PRECISION}{a list of precision on theta}
 
-\item{OMEGA2_or_CV}{are the omega value sd, variance or CV}
-
 \item{PRECISION}{is precision reported as SE or RSE}
+
+\item{.message}{display an additional reminder about other blocks.}
 }
 \value{
 dummy result
