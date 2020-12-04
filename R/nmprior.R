@@ -4,7 +4,7 @@
 #' @param THETA_VALUE a named list of the values of theta
 #' @param THETA_PRECISION a list of precision on theta
 #' @param OMEGA_VALUE a named list of the values of omega
-#' @param OMEGA_TYPE how was inter-individual variabilty reported ?
+#' @param OMEGA_TYPE how was inter-individual variability reported ?
 #' @param OMEGA_PRECISION a list of precision on theta
 #' @param PRECISION is precision reported as SE or RSE
 #' @param .message display an additional reminder about other blocks.
